@@ -3,29 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Holistic Stress Assessment</title>
-    <!-- Tailwind CSS for layout -->
+    
+    <!-- SEO & Project Details from Report -->
+    <title>Nightingale | Holistic Stress Assessment</title>
+    <meta name="description" content="A holistic wellness assessment tool based on the PSS-10 methodology. Integrates Mental, Physical, and Emotional health metrics.">
+    <meta name="author" content="Devansh Singh, Tanvi Raghavendra, Bavadarni A">
+
+    <!-- Tailwind CSS (Styling) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
+    <!-- Lucide Icons (Visuals) -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- 
-      ========================================
-      CSS SECTION (Save as style.css)
-      ========================================
-    -->
     <style>
+        /* Custom Animations */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8fafc;
+            background-color: #f8fafc; /* Slate-50 */
         }
 
         .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -40,82 +41,92 @@
         .hidden {
             display: none !important;
         }
+        
+        /* Smooth progress bar transition */
+        #progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex flex-col items-center justify-center p-4 text-slate-800">
 
-    <!-- 
-      ========================================
-      HTML STRUCTURE (Save as index.html)
-      ========================================
-    -->
-    <main class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden fade-in" id="app-container">
+    <main class="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden fade-in" id="app-container">
         
         <!-- SCREEN 1: START -->
         <div id="start-screen">
-            <div class="bg-teal-600 p-8 text-white text-center">
-                <i data-lucide="activity" class="w-16 h-16 mx-auto mb-4 opacity-90"></i>
-                <h1 class="text-3xl font-bold mb-2">Stress Assessment</h1>
-                <p class="text-teal-100">Based on PSS-10 Standard</p>
+            <div class="bg-teal-600 p-10 text-white text-center relative overflow-hidden">
+                <!-- Decorative circle -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mt-10"></div>
+                
+                <i data-lucide="activity" class="w-16 h-16 mx-auto mb-4 opacity-90 relative z-10"></i>
+                <h1 class="text-3xl font-bold mb-2 relative z-10">Nightingale</h1>
+                <p class="text-teal-100 font-medium relative z-10">Holistic Wellness Assessment</p>
             </div>
             <div class="p-8">
                 <p class="text-slate-600 mb-6 text-center leading-relaxed">
-                    This tool uses the <strong>Perceived Stress Scale</strong> to evaluate how unpredictable, uncontrollable, and overloaded you find your life.
+                    This tool uses the industry-standard <strong>Perceived Stress Scale (PSS-10)</strong> to analyze your mental well-being and provide holistic recommendations.
                 </p>
-                <div class="bg-blue-50 p-4 rounded-lg mb-8 border border-blue-100 flex items-start gap-3">
+                
+                <div class="bg-blue-50 p-4 rounded-xl mb-8 border border-blue-100 flex items-start gap-3">
                     <i data-lucide="info" class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0"></i>
-                    <p class="text-sm text-blue-800">
-                        Questions ask about your feelings during the <strong>last month</strong>.
+                    <p class="text-sm text-blue-800 leading-snug">
+                        Answer based on your feelings and thoughts during the <strong>last month</strong>. There are no right or wrong answers.
                     </p>
                 </div>
-                <button onclick="startQuiz()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-4 rounded-xl shadow-lg shadow-teal-200 flex items-center justify-center gap-2 transition-all">
-                    Start Assessment
-                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+
+                <button onclick="startQuiz()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-teal-200/50 flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02]">
+                    Begin Assessment
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
                 </button>
             </div>
         </div>
 
         <!-- SCREEN 2: QUIZ -->
-        <div id="quiz-screen" class="hidden flex flex-col min-h-[500px]">
+        <div id="quiz-screen" class="hidden flex flex-col min-h-[550px]">
             <!-- Progress Bar -->
             <div class="h-2 bg-slate-100 w-full">
-                <div id="progress-bar" class="h-full bg-teal-500 transition-all duration-500 ease-out" style="width: 0%"></div>
+                <div id="progress-bar" class="h-full bg-teal-500" style="width: 0%"></div>
             </div>
 
             <div class="p-8 flex-grow flex flex-col">
-                <span id="question-counter" class="text-xs font-bold text-teal-600 tracking-wider uppercase mb-4">
-                    Question 1 of 10
-                </span>
+                <div class="flex justify-between items-center mb-6">
+                    <span id="question-counter" class="text-xs font-bold text-teal-600 tracking-wider uppercase bg-teal-50 px-3 py-1 rounded-full">
+                        Question 1/10
+                    </span>
+                </div>
                 
-                <h3 id="question-text" class="text-xl font-medium text-slate-800 leading-relaxed mb-8 flex-grow">
-                    <!-- Question text goes here -->
+                <h3 id="question-text" class="text-xl font-semibold text-slate-800 leading-relaxed mb-8 flex-grow">
+                    <!-- Question text injects here -->
                 </h3>
 
                 <div id="options-container" class="space-y-3">
-                    <!-- Options generated by JS -->
+                    <!-- Options inject here -->
                 </div>
             </div>
         </div>
 
         <!-- SCREEN 3: RESULT -->
         <div id="result-screen" class="hidden fade-in">
-            <div id="result-header" class="p-8 text-center border-b">
-                <h2 class="text-slate-500 font-medium uppercase tracking-wide text-xs mb-2">Your Result</h2>
-                <div class="text-5xl font-bold mb-2" id="score-display">0<span class="text-2xl text-slate-400 font-normal">/40</span></div>
+            <div id="result-header" class="p-8 text-center border-b transition-colors duration-300">
+                <h2 class="text-slate-500 font-bold uppercase tracking-wide text-xs mb-2">Nightingale Score</h2>
+                <div class="flex items-baseline justify-center gap-1 mb-2">
+                    <span class="text-6xl font-bold" id="score-display">0</span>
+                    <span class="text-2xl text-slate-400 font-normal">/40</span>
+                </div>
                 <h3 class="text-2xl font-bold mb-4" id="level-display">Loading...</h3>
-                <p class="text-slate-700 leading-relaxed" id="desc-display">Description...</p>
+                <p class="text-slate-700 leading-relaxed text-sm px-2" id="desc-display">Description...</p>
             </div>
             
             <div class="p-8 bg-white">
-                <h4 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
-                    <i data-lucide="heart" class="w-5 h-5 text-teal-500"></i>
-                    Holistic Recommendations
+                <h4 class="font-bold text-slate-800 mb-4 flex items-center gap-2 text-sm uppercase tracking-wide">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-teal-500"></i>
+                    Holistic Insights
                 </h4>
                 <div id="recommendations-container" class="space-y-4">
-                    <!-- Recommendations generated by JS -->
+                    <!-- Recommendations inject here -->
                 </div>
                 
-                <button onclick="resetQuiz()" class="w-full mt-8 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                <button onclick="resetQuiz()" class="w-full mt-8 bg-slate-50 hover:bg-slate-100 text-slate-600 font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 border border-slate-200">
                     <i data-lucide="refresh-ccw" class="w-4 h-4"></i>
                     Retake Assessment
                 </button>
@@ -124,13 +135,16 @@
 
     </main>
 
-    <!-- 
-      ========================================
-      JAVASCRIPT LOGIC (Save as script.js)
-      ========================================
-    -->
+    <!-- Footer Credits -->
+    <footer class="mt-8 text-center text-slate-400 text-xs max-w-md leading-relaxed">
+        <p>Project Nightingale © 2024</p>
+        <p class="mt-1">Authors: Devansh Singh, Tanvi Raghavendra, Bavadarni A</p>
+    </footer>
+
     <script>
-        // --- DATA ---
+        // --- CONFIGURATION & DATA ---
+        // PSS-10 Questions (Standard Medical Methodology)
+        // 'reverse: true' means the question is positive (e.g., "felt confident"), so "Very Often" (4) should actually count as 0 stress.
         const PSS_QUESTIONS = [
             { id: 1, text: "In the last month, how often have you been upset because of something that happened unexpectedly?" },
             { id: 2, text: "In the last month, how often have you felt that you were unable to control the important things in your life?" },
@@ -152,7 +166,7 @@
             { value: 4, label: "Very Often" }
         ];
 
-        // --- STATE ---
+        // --- APP STATE ---
         let currentQuestionIndex = 0;
         let answers = {};
 
@@ -165,10 +179,10 @@
         const questionCounter = document.getElementById('question-counter');
         const optionsContainer = document.getElementById('options-container');
 
-        // --- INITIALIZE ICONS ---
+        // Initialize Icons
         lucide.createIcons();
 
-        // --- FUNCTIONS ---
+        // --- CORE LOGIC ---
 
         function startQuiz() {
             startScreen.classList.add('hidden');
@@ -179,35 +193,51 @@
         function loadQuestion() {
             const q = PSS_QUESTIONS[currentQuestionIndex];
             
-            // Update UI
+            // Update Text
             questionText.textContent = q.text;
-            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${PSS_QUESTIONS.length}`;
-            const progress = (currentQuestionIndex / PSS_QUESTIONS.length) * 100;
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1}/${PSS_QUESTIONS.length}`;
+            
+            // Update Progress Bar
+            const progress = ((currentQuestionIndex) / PSS_QUESTIONS.length) * 100;
             progressBar.style.width = `${progress}%`;
 
-            // Generate Options
+            // Generate Buttons
             optionsContainer.innerHTML = '';
             OPTIONS.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = "option-btn w-full text-left p-4 rounded-xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50 text-slate-700 font-medium flex justify-between items-center group bg-white mb-3";
+                btn.className = "option-btn w-full text-left p-4 rounded-xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50 hover:shadow-md text-slate-700 font-medium flex justify-between items-center group bg-white";
+                
+                // Check selection visual
+                const isSelected = answers[currentQuestionIndex] === opt.value;
+                
                 btn.onclick = () => handleAnswer(opt.value);
                 btn.innerHTML = `
                     ${opt.label}
-                    <div class="w-4 h-4 rounded-full border border-slate-300 group-hover:border-teal-500 group-hover:bg-teal-500 transition-colors"></div>
+                    <div class="w-5 h-5 rounded-full border-2 border-slate-300 group-hover:border-teal-500 group-hover:bg-teal-500 transition-colors flex items-center justify-center">
+                        <i data-lucide="check" class="w-3 h-3 text-white opacity-0 group-hover:opacity-100"></i>
+                    </div>
                 `;
                 optionsContainer.appendChild(btn);
             });
+            
+            // Re-init icons for new buttons
+            lucide.createIcons();
         }
 
         function handleAnswer(value) {
             answers[currentQuestionIndex] = value;
             
+            // Visual feedback
+            const btns = optionsContainer.getElementsByTagName('button');
+            for(let btn of btns) {
+                btn.classList.add('opacity-50', 'pointer-events-none'); // Disable double clicks
+            }
+
             if (currentQuestionIndex < PSS_QUESTIONS.length - 1) {
                 currentQuestionIndex++;
-                // Small delay for better UX
-                setTimeout(loadQuestion, 200);
+                setTimeout(loadQuestion, 250); // Short delay for UX
             } else {
-                setTimeout(showResults, 200);
+                setTimeout(showResults, 250);
             }
         }
 
@@ -215,7 +245,8 @@
             let score = 0;
             PSS_QUESTIONS.forEach((q, index) => {
                 const rawValue = answers[index] || 0;
-                // Reverse Logic: 0->4, 1->3, 2->2, 3->1, 4->0
+                // REVERSE SCORING LOGIC
+                // For positive questions (e.g. "felt confident"), 4 ("Very Often") is actually 0 stress.
                 if (q.reverse) {
                     score += (4 - rawValue);
                 } else {
@@ -232,57 +263,56 @@
             const score = calculateScore();
             const resultData = getResultData(score);
 
-            // Update Result UI
+            // DOM Elements
             const scoreDisplay = document.getElementById('score-display');
             const levelDisplay = document.getElementById('level-display');
             const descDisplay = document.getElementById('desc-display');
             const header = document.getElementById('result-header');
+            const recContainer = document.getElementById('recommendations-container');
 
-            scoreDisplay.innerHTML = `${score}<span class="text-2xl text-slate-400 font-normal">/40</span>`;
-            scoreDisplay.className = `text-5xl font-bold mb-2 ${resultData.textColor}`;
+            // Apply Data
+            scoreDisplay.textContent = score;
+            scoreDisplay.className = `text-6xl font-bold ${resultData.textColor}`;
             
             levelDisplay.textContent = resultData.level;
             levelDisplay.className = `text-2xl font-bold mb-4 ${resultData.textColor}`;
             
             descDisplay.textContent = resultData.desc;
-            
             header.className = `p-8 text-center border-b ${resultData.bgColor} ${resultData.borderColor}`;
 
-            // Render Recommendations
-            const recContainer = document.getElementById('recommendations-container');
+            // Generate Recommendations
             recContainer.innerHTML = '';
-            
             resultData.tips.forEach(tip => {
                 const tipEl = document.createElement('div');
-                tipEl.className = "flex gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100";
+                tipEl.className = "flex gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors";
                 tipEl.innerHTML = `
                     <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center flex-shrink-0 text-teal-600">
                         <i data-lucide="${tip.icon}" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h5 class="font-semibold text-slate-800 text-sm">${tip.title} Health</h5>
-                        <p class="text-slate-600 text-sm mt-1">${tip.text}</p>
+                        <h5 class="font-semibold text-slate-800 text-sm mb-1">${tip.title} Focus</h5>
+                        <p class="text-slate-600 text-sm leading-snug">${tip.text}</p>
                     </div>
                 `;
                 recContainer.appendChild(tipEl);
             });
 
-            // Re-initialize icons for new elements
             lucide.createIcons();
         }
 
         function getResultData(score) {
+            // Scoring thresholds based on PSS-10 standard
             if (score <= 13) {
                 return {
                     level: "Low Stress",
                     textColor: "text-green-600",
                     bgColor: "bg-green-50",
                     borderColor: "border-green-200",
-                    desc: "Your stress levels are well within the healthy range. You are coping well with life's demands.",
+                    desc: "You are balancing life's demands effectively. Your psychological resilience is currently high.",
                     tips: [
-                        { icon: "brain", title: "Mental", text: "Maintain your mindfulness practice to keep this balance." },
-                        { icon: "activity", title: "Physical", text: "Focus on endurance training or try a new sport." },
-                        { icon: "smile", title: "Emotional", text: "Mentor others or share your positive strategies." }
+                        { icon: "brain", title: "Mental", text: "Continue your current mindfulness or relaxation routines." },
+                        { icon: "activity", title: "Physical", text: "Challenge yourself with a new sport or endurance goal." },
+                        { icon: "smile", title: "Emotional", text: "Share your positive coping strategies with friends or peers." }
                     ]
                 };
             } else if (score <= 26) {
@@ -291,24 +321,24 @@
                     textColor: "text-yellow-600",
                     bgColor: "bg-yellow-50",
                     borderColor: "border-yellow-200",
-                    desc: "You are experiencing some strain. While manageable, it's important to practice self-care to prevent burnout.",
+                    desc: "You are feeling some strain. While manageable, prioritize self-care now to prevent future burnout.",
                     tips: [
-                        { icon: "brain", title: "Mental", text: "Try 10 minutes of daily guided meditation." },
-                        { icon: "activity", title: "Physical", text: "Ensure you get 7-8 hours of sleep and prioritize hydration." },
-                        { icon: "smile", title: "Emotional", text: "Journal your thoughts to identify specific stressors." }
+                        { icon: "brain", title: "Mental", text: "Practice 'Box Breathing' (4-4-4-4) when you feel overwhelmed." },
+                        { icon: "moon", title: "Physical", text: "Ensure you are getting 7-8 hours of quality sleep." },
+                        { icon: "book-open", title: "Emotional", text: "Try journaling for 5 minutes a day to offload thoughts." }
                     ]
                 };
             } else {
                 return {
-                    level: "High Perceived Stress",
+                    level: "High Stress",
                     textColor: "text-red-600",
                     bgColor: "bg-red-50",
                     borderColor: "border-red-200",
-                    desc: "Your responses indicate a high level of stress. It is highly recommended to seek support and prioritize recovery.",
+                    desc: "Your stress load is high. It is important to reduce your load and seek support immediately.",
                     tips: [
-                        { icon: "brain", title: "Mental", text: "Consider professional counseling or cognitive behavioral techniques." },
-                        { icon: "activity", title: "Physical", text: "Engage in low-impact movement like walking or yoga." },
-                        { icon: "smile", title: "Emotional", text: "Reach out to a trusted friend or support group today." }
+                        { icon: "message-circle", title: "Mental", text: "Consider speaking with a counselor or using CBT apps." },
+                        { icon: "battery-charging", title: "Physical", text: "Focus on gentle movement like walking or yoga; avoid high intensity." },
+                        { icon: "users", title: "Emotional", text: "Reach out to a trusted friend or family member today." }
                     ]
                 };
             }
@@ -319,6 +349,7 @@
             answers = {};
             resultScreen.classList.add('hidden');
             startScreen.classList.remove('hidden');
+            progressBar.style.width = '0%';
         }
     </script>
 </body>
