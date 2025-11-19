@@ -4,23 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO & Project Details from Report -->
-    <title>Nightingale | Holistic Stress Assessment</title>
-    <meta name="description" content="A holistic wellness assessment tool based on the PSS-10 methodology. Integrates Mental, Physical, and Emotional health metrics.">
-    <meta name="author" content="Devansh Singh, Tanvi Raghavendra, Bavadarni A">
+    <!-- Project Details -->
+    <title>MindUp | Holistic Wellness Ecosystem</title>
 
     <!-- Tailwind CSS (Styling) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- Lucide Icons (Visuals) -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
+    <!-- CSS STYLES -->
     <style>
-        /* Custom Animations */
+        /* MindUp Custom Styles */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8fafc; /* Slate-50 */
         }
 
+        /* Smooth Fade In Animation */
         .fade-in {
             animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
         }
@@ -30,121 +30,152 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Custom Button Behaviors */
         .option-btn {
             transition: all 0.2s ease;
+            cursor: pointer; /* Ensures hand icon on hover */
         }
 
         .option-btn:hover {
             transform: translateX(4px);
         }
 
+        /* Utility Classes */
         .hidden {
             display: none !important;
         }
-        
-        /* Smooth progress bar transition */
+
+        /* Progress Bar Smoothness */
         #progress-bar {
             transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        /* Decorative Circle in Header */
+        .decorative-circle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 8rem;
+            height: 8rem;
+            background-color: white;
+            opacity: 0.1;
+            border-radius: 9999px;
+            margin-right: -2.5rem;
+            margin-top: -2.5rem;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4 text-slate-800">
+<body class="bg-slate-50 min-h-screen flex flex-col text-slate-800 font-sans">
 
-    <main class="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden fade-in" id="app-container">
-        
-        <!-- SCREEN 1: START -->
-        <div id="start-screen">
-            <div class="bg-teal-600 p-10 text-white text-center relative overflow-hidden">
-                <!-- Decorative circle -->
-                <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mt-10"></div>
-                
-                <i data-lucide="activity" class="w-16 h-16 mx-auto mb-4 opacity-90 relative z-10"></i>
-                <h1 class="text-3xl font-bold mb-2 relative z-10">Nightingale</h1>
-                <p class="text-teal-100 font-medium relative z-10">Holistic Wellness Assessment</p>
+    <!-- NAVIGATION -->
+    <nav class="bg-white shadow-sm border-b border-slate-200">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="zap" class="text-teal-600 w-6 h-6"></i>
+                <span class="font-bold text-xl tracking-tight text-slate-800">MindUp</span>
             </div>
-            <div class="p-8">
-                <p class="text-slate-600 mb-6 text-center leading-relaxed">
-                    This tool uses the industry-standard <strong>Perceived Stress Scale (PSS-10)</strong> to analyze your mental well-being and provide holistic recommendations.
-                </p>
-                
-                <div class="bg-blue-50 p-4 rounded-xl mb-8 border border-blue-100 flex items-start gap-3">
-                    <i data-lucide="info" class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0"></i>
-                    <p class="text-sm text-blue-800 leading-snug">
-                        Answer based on your feelings and thoughts during the <strong>last month</strong>. There are no right or wrong answers.
-                    </p>
-                </div>
-
-                <button onclick="startQuiz()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-teal-200/50 flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02]">
-                    Begin Assessment
-                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                </button>
+            <div class="hidden md:flex gap-6 text-sm font-medium text-slate-500">
+                <a href="#" class="text-teal-600 border-b-2 border-teal-600 pb-0.5">Mental Test</a>
+                <a href="#" class="hover:text-teal-600 transition-colors" title="Coming Soon">Physical</a>
+                <a href="#" class="hover:text-teal-600 transition-colors" title="Coming Soon">Emotional</a>
             </div>
         </div>
+    </nav>
 
-        <!-- SCREEN 2: QUIZ -->
-        <div id="quiz-screen" class="hidden flex flex-col min-h-[550px]">
-            <!-- Progress Bar -->
-            <div class="h-2 bg-slate-100 w-full">
-                <div id="progress-bar" class="h-full bg-teal-500" style="width: 0%"></div>
-            </div>
-
-            <div class="p-8 flex-grow flex flex-col">
-                <div class="flex justify-between items-center mb-6">
-                    <span id="question-counter" class="text-xs font-bold text-teal-600 tracking-wider uppercase bg-teal-50 px-3 py-1 rounded-full">
-                        Question 1/10
-                    </span>
-                </div>
-                
-                <h3 id="question-text" class="text-xl font-semibold text-slate-800 leading-relaxed mb-8 flex-grow">
-                    <!-- Question text injects here -->
-                </h3>
-
-                <div id="options-container" class="space-y-3">
-                    <!-- Options inject here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- SCREEN 3: RESULT -->
-        <div id="result-screen" class="hidden fade-in">
-            <div id="result-header" class="p-8 text-center border-b transition-colors duration-300">
-                <h2 class="text-slate-500 font-bold uppercase tracking-wide text-xs mb-2">Nightingale Score</h2>
-                <div class="flex items-baseline justify-center gap-1 mb-2">
-                    <span class="text-6xl font-bold" id="score-display">0</span>
-                    <span class="text-2xl text-slate-400 font-normal">/40</span>
-                </div>
-                <h3 class="text-2xl font-bold mb-4" id="level-display">Loading...</h3>
-                <p class="text-slate-700 leading-relaxed text-sm px-2" id="desc-display">Description...</p>
-            </div>
+    <!-- MAIN APP CONTAINER -->
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden fade-in" id="app-container">
             
-            <div class="p-8 bg-white">
-                <h4 class="font-bold text-slate-800 mb-4 flex items-center gap-2 text-sm uppercase tracking-wide">
-                    <i data-lucide="sparkles" class="w-4 h-4 text-teal-500"></i>
-                    Holistic Insights
-                </h4>
-                <div id="recommendations-container" class="space-y-4">
-                    <!-- Recommendations inject here -->
+            <!-- SCREEN 1: START -->
+            <div id="start-screen">
+                <div class="bg-teal-600 p-10 text-white text-center relative overflow-hidden">
+                    <div class="decorative-circle"></div>
+                    <i data-lucide="brain-circuit" class="w-16 h-16 mx-auto mb-4 opacity-90 relative z-10"></i>
+                    <h1 class="text-3xl font-bold mb-2 relative z-10">MindUp Assessment</h1>
+                    <p class="text-teal-100 font-medium relative z-10">Mental Health Pillar (PSS-10)</p>
+                </div>
+                <div class="p-8">
+                    <p class="text-slate-600 mb-6 text-center leading-relaxed">
+                        Welcome to <strong>MindUp</strong>. We use clinical standards to analyze your stress levels and provide personalized holistic advice.
+                    </p>
+                    
+                    <div class="bg-blue-50 p-4 rounded-xl mb-8 border border-blue-100 flex items-start gap-3">
+                        <i data-lucide="info" class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0"></i>
+                        <p class="text-sm text-blue-800 leading-snug">
+                            Please answer based on your feelings and thoughts during the <strong>last month</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Added onclick="startQuiz()" directly here for guaranteed functionality -->
+                    <button id="btn-start" onclick="startQuiz()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-teal-200/50 flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] cursor-pointer">
+                        Start Test
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SCREEN 2: QUIZ -->
+            <div id="quiz-screen" class="hidden flex flex-col min-h-[550px]">
+                <div class="h-2 bg-slate-100 w-full">
+                    <div id="progress-bar" class="h-full bg-teal-500 w-0"></div>
+                </div>
+
+                <div class="p-8 flex-grow flex flex-col">
+                    <div class="flex justify-between items-center mb-6">
+                        <span id="question-counter" class="text-xs font-bold text-teal-600 tracking-wider uppercase bg-teal-50 px-3 py-1 rounded-full">
+                            Question 1/10
+                        </span>
+                    </div>
+                    
+                    <h3 id="question-text" class="text-xl font-semibold text-slate-800 leading-relaxed mb-8 flex-grow">
+                        <!-- JS injects question here -->
+                    </h3>
+
+                    <div id="options-container" class="space-y-3">
+                        <!-- JS injects options here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 3: RESULT -->
+            <div id="result-screen" class="hidden fade-in">
+                <div id="result-header" class="p-8 text-center border-b transition-colors duration-300">
+                    <h2 class="text-slate-500 font-bold uppercase tracking-wide text-xs mb-2">MindUp Score</h2>
+                    <div class="flex items-baseline justify-center gap-1 mb-2">
+                        <span class="text-6xl font-bold" id="score-display">0</span>
+                        <span class="text-2xl text-slate-400 font-normal">/40</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4" id="level-display">Loading...</h3>
+                    <p class="text-slate-700 leading-relaxed text-sm px-2" id="desc-display">Description...</p>
                 </div>
                 
-                <button onclick="resetQuiz()" class="w-full mt-8 bg-slate-50 hover:bg-slate-100 text-slate-600 font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 border border-slate-200">
-                    <i data-lucide="refresh-ccw" class="w-4 h-4"></i>
-                    Retake Assessment
-                </button>
+                <div class="p-8 bg-white">
+                    <h4 class="font-bold text-slate-800 mb-4 flex items-center gap-2 text-sm uppercase tracking-wide">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-teal-500"></i>
+                        MindUp Recommendations
+                    </h4>
+                    <div id="recommendations-container" class="space-y-4">
+                        <!-- JS injects recommendations here -->
+                    </div>
+                    
+                    <!-- Added onclick="resetQuiz()" directly here -->
+                    <button id="btn-restart" onclick="resetQuiz()" class="w-full mt-8 bg-slate-50 hover:bg-slate-100 text-slate-600 font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 border border-slate-200 cursor-pointer">
+                        <i data-lucide="refresh-ccw" class="w-4 h-4"></i>
+                        Retake Test
+                    </button>
+                </div>
             </div>
-        </div>
 
+        </div>
     </main>
 
-    <!-- Footer Credits -->
-    <footer class="mt-8 text-center text-slate-400 text-xs max-w-md leading-relaxed">
-        <p>Project Nightingale © 2024</p>
-        <p class="mt-1">Authors: Devansh Singh, Tanvi Raghavendra, Bavadarni A</p>
+    <footer class="py-6 text-center text-slate-400 text-xs">
+        <p>MindUp Project © 2025</p>
     </footer>
 
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         // --- CONFIGURATION & DATA ---
-        // PSS-10 Questions (Standard Medical Methodology)
-        // 'reverse: true' means the question is positive (e.g., "felt confident"), so "Very Often" (4) should actually count as 0 stress.
         const PSS_QUESTIONS = [
             { id: 1, text: "In the last month, how often have you been upset because of something that happened unexpectedly?" },
             { id: 2, text: "In the last month, how often have you felt that you were unable to control the important things in your life?" },
@@ -170,72 +201,103 @@
         let currentQuestionIndex = 0;
         let answers = {};
 
-        // --- DOM ELEMENTS ---
-        const startScreen = document.getElementById('start-screen');
-        const quizScreen = document.getElementById('quiz-screen');
-        const resultScreen = document.getElementById('result-screen');
-        const questionText = document.getElementById('question-text');
-        const progressBar = document.getElementById('progress-bar');
-        const questionCounter = document.getElementById('question-counter');
-        const optionsContainer = document.getElementById('options-container');
+        // --- DOM ELEMENTS & INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Icons safely
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            } else {
+                console.log("Lucide icons not loaded - running in offline/restricted mode.");
+            }
+        });
 
-        // Initialize Icons
-        lucide.createIcons();
+        // --- FUNCTIONS ---
 
-        // --- CORE LOGIC ---
+        function getElements() {
+            return {
+                startScreen: document.getElementById('start-screen'),
+                quizScreen: document.getElementById('quiz-screen'),
+                resultScreen: document.getElementById('result-screen'),
+                questionText: document.getElementById('question-text'),
+                progressBar: document.getElementById('progress-bar'),
+                questionCounter: document.getElementById('question-counter'),
+                optionsContainer: document.getElementById('options-container'),
+                scoreDisplay: document.getElementById('score-display'),
+                levelDisplay: document.getElementById('level-display'),
+                descDisplay: document.getElementById('desc-display'),
+                header: document.getElementById('result-header'),
+                recContainer: document.getElementById('recommendations-container')
+            };
+        }
 
-        function startQuiz() {
-            startScreen.classList.add('hidden');
-            quizScreen.classList.remove('hidden');
-            loadQuestion();
+        // Made global so onclick="..." works reliably
+        window.startQuiz = function() {
+            try {
+                const els = getElements();
+                if (!els.startScreen || !els.quizScreen) {
+                    console.error("Error: Could not find app screens.");
+                    return;
+                }
+
+                els.startScreen.classList.add('hidden');
+                els.quizScreen.classList.remove('hidden');
+                loadQuestion();
+            } catch (error) {
+                console.error(error);
+                alert("App Error: " + error.message);
+            }
         }
 
         function loadQuestion() {
+            const els = getElements();
             const q = PSS_QUESTIONS[currentQuestionIndex];
             
             // Update Text
-            questionText.textContent = q.text;
-            questionCounter.textContent = `Question ${currentQuestionIndex + 1}/${PSS_QUESTIONS.length}`;
+            if (els.questionText) els.questionText.textContent = q.text;
+            if (els.questionCounter) els.questionCounter.textContent = `Question ${currentQuestionIndex + 1}/${PSS_QUESTIONS.length}`;
             
             // Update Progress Bar
-            const progress = ((currentQuestionIndex) / PSS_QUESTIONS.length) * 100;
-            progressBar.style.width = `${progress}%`;
+            if (els.progressBar) {
+                const progress = ((currentQuestionIndex) / PSS_QUESTIONS.length) * 100;
+                els.progressBar.style.width = `${progress}%`;
+            }
 
             // Generate Buttons
-            optionsContainer.innerHTML = '';
-            OPTIONS.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = "option-btn w-full text-left p-4 rounded-xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50 hover:shadow-md text-slate-700 font-medium flex justify-between items-center group bg-white";
-                
-                // Check selection visual
-                const isSelected = answers[currentQuestionIndex] === opt.value;
-                
-                btn.onclick = () => handleAnswer(opt.value);
-                btn.innerHTML = `
-                    ${opt.label}
-                    <div class="w-5 h-5 rounded-full border-2 border-slate-300 group-hover:border-teal-500 group-hover:bg-teal-500 transition-colors flex items-center justify-center">
-                        <i data-lucide="check" class="w-3 h-3 text-white opacity-0 group-hover:opacity-100"></i>
-                    </div>
-                `;
-                optionsContainer.appendChild(btn);
-            });
-            
-            // Re-init icons for new buttons
-            lucide.createIcons();
+            if (els.optionsContainer) {
+                els.optionsContainer.innerHTML = '';
+                OPTIONS.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = "option-btn w-full text-left p-4 rounded-xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50 hover:shadow-md text-slate-700 font-medium flex justify-between items-center group bg-white";
+                    
+                    // Use click directly
+                    btn.onclick = function() { handleAnswer(opt.value); };
+                    
+                    btn.innerHTML = `
+                        ${opt.label}
+                        <div class="w-5 h-5 rounded-full border-2 border-slate-300 group-hover:border-teal-500 group-hover:bg-teal-500 transition-colors flex items-center justify-center">
+                            <!-- Fallback if icon fails -->
+                            <span class="block group-hover:hidden text-slate-300"></span>
+                            <span class="hidden group-hover:block text-white font-bold">✓</span>
+                        </div>
+                    `;
+                    els.optionsContainer.appendChild(btn);
+                });
+            }
         }
 
         function handleAnswer(value) {
             answers[currentQuestionIndex] = value;
             
             // Visual feedback
-            const btns = optionsContainer.getElementsByTagName('button');
+            const els = getElements();
+            const btns = els.optionsContainer.getElementsByTagName('button');
             for(let btn of btns) {
-                btn.classList.add('opacity-50', 'pointer-events-none'); // Disable double clicks
+                btn.classList.add('opacity-50', 'pointer-events-none');
             }
 
             if (currentQuestionIndex < PSS_QUESTIONS.length - 1) {
                 currentQuestionIndex++;
-                setTimeout(loadQuestion, 250); // Short delay for UX
+                setTimeout(loadQuestion, 250);
             } else {
                 setTimeout(showResults, 250);
             }
@@ -245,8 +307,6 @@
             let score = 0;
             PSS_QUESTIONS.forEach((q, index) => {
                 const rawValue = answers[index] || 0;
-                // REVERSE SCORING LOGIC
-                // For positive questions (e.g. "felt confident"), 4 ("Very Often") is actually 0 stress.
                 if (q.reverse) {
                     score += (4 - rawValue);
                 } else {
@@ -257,31 +317,23 @@
         }
 
         function showResults() {
-            quizScreen.classList.add('hidden');
-            resultScreen.classList.remove('hidden');
+            const els = getElements();
+            els.quizScreen.classList.add('hidden');
+            els.resultScreen.classList.remove('hidden');
             
             const score = calculateScore();
             const resultData = getResultData(score);
 
-            // DOM Elements
-            const scoreDisplay = document.getElementById('score-display');
-            const levelDisplay = document.getElementById('level-display');
-            const descDisplay = document.getElementById('desc-display');
-            const header = document.getElementById('result-header');
-            const recContainer = document.getElementById('recommendations-container');
-
-            // Apply Data
-            scoreDisplay.textContent = score;
-            scoreDisplay.className = `text-6xl font-bold ${resultData.textColor}`;
+            els.scoreDisplay.textContent = score;
+            els.scoreDisplay.className = `text-6xl font-bold ${resultData.textColor}`;
             
-            levelDisplay.textContent = resultData.level;
-            levelDisplay.className = `text-2xl font-bold mb-4 ${resultData.textColor}`;
+            els.levelDisplay.textContent = resultData.level;
+            els.levelDisplay.className = `text-2xl font-bold mb-4 ${resultData.textColor}`;
             
-            descDisplay.textContent = resultData.desc;
-            header.className = `p-8 text-center border-b ${resultData.bgColor} ${resultData.borderColor}`;
+            els.descDisplay.textContent = resultData.desc;
+            els.header.className = `p-8 text-center border-b ${resultData.bgColor} ${resultData.borderColor}`;
 
-            // Generate Recommendations
-            recContainer.innerHTML = '';
+            els.recContainer.innerHTML = '';
             resultData.tips.forEach(tip => {
                 const tipEl = document.createElement('div');
                 tipEl.className = "flex gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors";
@@ -294,21 +346,21 @@
                         <p class="text-slate-600 text-sm leading-snug">${tip.text}</p>
                     </div>
                 `;
-                recContainer.appendChild(tipEl);
+                els.recContainer.appendChild(tipEl);
             });
 
-            lucide.createIcons();
+            // Try to load icons, but don't crash if it fails
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function getResultData(score) {
-            // Scoring thresholds based on PSS-10 standard
             if (score <= 13) {
                 return {
                     level: "Low Stress",
                     textColor: "text-green-600",
                     bgColor: "bg-green-50",
                     borderColor: "border-green-200",
-                    desc: "You are balancing life's demands effectively. Your psychological resilience is currently high.",
+                    desc: "You are balancing life's demands effectively. Your MindUp resilience score is high.",
                     tips: [
                         { icon: "brain", title: "Mental", text: "Continue your current mindfulness or relaxation routines." },
                         { icon: "activity", title: "Physical", text: "Challenge yourself with a new sport or endurance goal." },
@@ -344,12 +396,14 @@
             }
         }
 
-        function resetQuiz() {
+        // Made global so onclick="..." works reliably
+        window.resetQuiz = function() {
+            const els = getElements();
             currentQuestionIndex = 0;
             answers = {};
-            resultScreen.classList.add('hidden');
-            startScreen.classList.remove('hidden');
-            progressBar.style.width = '0%';
+            els.resultScreen.classList.add('hidden');
+            els.startScreen.classList.remove('hidden');
+            els.progressBar.style.width = '0%';
         }
     </script>
 </body>
